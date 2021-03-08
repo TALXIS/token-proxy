@@ -56,7 +56,7 @@ namespace TokenProxy.API.Functions
 
                     // send request with previously acquired bearer token
                     var client = new FluentClient(new Uri(_options.Value.BaseUrl), _factory.CreateClient());
-                    var builder = new UriBuilder("https://app.officernd.com")
+                    var builder = new UriBuilder(_options.Value.BaseUrl)
                     {
                         Path = path,
                         Query = req.QueryString.Value,
