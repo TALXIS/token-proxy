@@ -30,7 +30,7 @@ namespace TokenProxy.API.Functions
         }
 
         [FunctionName("Proxy")]
-        public async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "Proxy/{*path}")] HttpRequest req, string path)
+        public async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, Route = "Proxy/{*path}")] HttpRequest req, string path)
         {
             var authHeader = req.Headers["Authorization"].ToString();
             if (authHeader.StartsWith("basic", StringComparison.OrdinalIgnoreCase))
