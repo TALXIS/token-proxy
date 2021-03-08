@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace TokenProxy.API.Options
 {
@@ -15,5 +16,7 @@ namespace TokenProxy.API.Options
         /// </summary>
         [Required]
         public string Scope { get; set; }
+
+        public TimeSpan TokenCacheTime { get; set; } = TimeSpan.FromMinutes(30);
     }
 }

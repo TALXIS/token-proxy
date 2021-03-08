@@ -37,6 +37,8 @@ namespace TokenProxy.API
                 .AddHttpClient<ITokenService, TokenService>();
 
             // cache
+            builder.Services.AddMemoryCache();
+            builder.Services.Decorate<ITokenService, TokenServiceMemoryCache>();
         }
     }
 }
