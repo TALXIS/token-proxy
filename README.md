@@ -5,6 +5,8 @@ The primary point is to provide the ability to use `client_credentials` flow in 
 
 As previously mentioned, this solution acts as a proxy which accepts the `client_credentials` as [Basic authentication](https://docs.microsoft.com/en-us/connectors/custom-connectors/#2-secure-your-api) (username = `clientId`, password = `clientSecret`). While we know it is not an optimal solution, it appears to be the only solution to do this against custom OAuth2 / OpenID Connect provider. Also the extra benefit is, that the acquired token can be cached for the specified amount of time, so you won't hit your STS with every single request.
 
+There is [an open issue](https://github.com/microsoft/PowerPlatformConnectors/issues/708) in Microsoft's custom connectors repository to provide the documentation on how-to achieve this natively with connectors (yes, it is possible, at least with Azure AD).
+
 ## Getting started
 1. Deploy to Azure as an [Azure Function app](https://azure.microsoft.com/en-us/services/functions/)
 2. [Configure settings](https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings?tabs=portal) (example below)
