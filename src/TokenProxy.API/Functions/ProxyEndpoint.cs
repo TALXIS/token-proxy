@@ -65,12 +65,15 @@ namespace TokenProxy.API.Functions
                     var resource = builder.ToString();
 
                     var message = new HttpRequestMessage(new HttpMethod(req.Method), resource);
+                    message.Content = new StreamContent(req.Body);
                     foreach (var header in req.Headers)
                     {
-                        message.Headers.Add(header.Key, header.Value.ToArray());
+                        if (!message.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray()))
+                        {
+                            message.Content.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
+                        }
                     }
                     message.Headers.Host = builder.Host;
-                    message.Content = new StreamContent(req.Body);
 
                     //send request with previously acquired bearer token
                     return await client.SendAsync(message)
