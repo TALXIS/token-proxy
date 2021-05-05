@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -35,6 +35,9 @@ namespace TokenProxy.API.Functions
             var authHeader = req.Headers["Authorization"].ToString();
             var clientId = "";
             var clientSecret = "";
+
+            var queryString = HttpUtility.ParseQueryString(req.QueryString.Value);
+
             if (authHeader.StartsWith("basic", StringComparison.OrdinalIgnoreCase))
             {
                 // parse client credentials
@@ -58,6 +61,9 @@ namespace TokenProxy.API.Functions
 
                 clientId = id[0];
                 clientSecret = secret[0];
+
+                queryString.Remove("$clientId");
+                queryString.Remove("$clientSecret");
             }
             else
             {
@@ -73,10 +79,11 @@ namespace TokenProxy.API.Functions
 
                 // send request with previously acquired bearer token
                 var client = new FluentClient(new Uri(_options.Value.BaseUrl), _factory.CreateClient());
+
                 var builder = new UriBuilder(_options.Value.BaseUrl)
                 {
                     Path = path,
-                    Query = req.QueryString.Value,
+                    Query = queryString.ToString(),
                     Port = -1
                 };
                 var resource = builder.ToString();
